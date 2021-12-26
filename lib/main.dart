@@ -146,8 +146,9 @@ class _TodoAppState extends State<TodoApp> {
         child: Icon(Icons.add),
         backgroundColor: Colors.black,
         onPressed: () async {
-          print( 'floating action button is clicked');
+          print( 'floating action button');
 
+          // 값을 받으려면 비동기/대기로 해야하는구나! 그렇지 않으면 Error
           Todo td = await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => TodoWritePage( 
@@ -164,13 +165,14 @@ class _TodoAppState extends State<TodoApp> {
                 )
           );
 
+          // 값을 정상적으로 입력하지 않고 빠져나올 경우 Back/그냥 저장인 경우 null
           try {
 
             setState(() {
-              if ( td.title != null ) {
-                print( '저장완료: $td');
+              // if ( td.title != null ) {
+                print( '저장완료: ${td.title}');
                 todos.add(td);
-              }
+              // }
             });
 
           } catch(e) {
