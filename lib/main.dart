@@ -51,28 +51,28 @@ class _TodoAppState extends State<TodoApp> {
 
     Todo( 
       title:    '책 2권 읽기',
-      memo:     '부의 추월차선 읽기',
       color:    Colors.cyanAccent.value,
-      done:     0,
       category: '독서',
+      memo:     '부의 추월차선 읽기',
+      done:     0,
       date:     20211225
     ),
 
     Todo( 
       title:    '헬스 2시간',
-      memo:     '어깨운동',
       color:    Colors.pinkAccent.value,
-      done:     0,
       category: '헬스',
+      memo:     '어깨운동',
+      done:     0,
       date:     20211225
     ),
 
     Todo( 
       title:    '강의듣기',
-      memo:     '앱개발 입문강의',
       color:    Colors.greenAccent.value,
-      done:     1,
       category: '강의',
+      memo:     '앱개발 입문강의',
+      done:     1,
       date:     20211225
     ),
 
@@ -145,22 +145,38 @@ class _TodoAppState extends State<TodoApp> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.black,
-        onPressed: () {
+        onPressed: () async {
           print( 'floating action button is clicked');
-          Navigator.of(context).push(
-            MaterialPageRoute(
-                builder: (ctx) => TodoWritePage( 
-                  todo: Todo(
-                    title: '',
-                    category: '',
-                    memo: '',
-                    done: 0,
-                    color: Colors.blue.value,
-                    date: Utils.getFormatTime( DateTime.now())
-                  )
-                ),
-            )
+
+          Todo td = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (ctx) => TodoWritePage( 
+                    todo: Todo(
+                      title: '',
+                      color: Colors.blue.value,
+                      category: '',
+                      memo: '',
+                      done: 0,
+                      date: Utils.getFormatTime( DateTime.now())
+                    )
+                  ),
+                  
+                )
           );
+
+          try {
+
+            setState(() {
+              if ( td.title != null ) {
+                print( '저장완료: $td');
+                todos.add(td);
+              }
+            });
+
+          } catch(e) {
+            print( 'Error: $e' );
+          }
+
 
         }
       ),
